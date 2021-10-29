@@ -11,9 +11,6 @@ pool:
   demands:
   -npm
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK 5.x'
