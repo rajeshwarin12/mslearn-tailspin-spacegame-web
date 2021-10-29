@@ -11,14 +11,11 @@ pool:
   demands:
   - npm
 
-variables:
-  buildConfiguration: 'Release'
 
 steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK 5.x'
-  inputs:
-   packageType: sdk 
+  inputs: 
    version: '5.x'
 
 - task: Npm@1
@@ -40,7 +37,7 @@ steps:
   displayName: 'Restore Project dependences'
   inputs:
    command: 'restore'
-   project: '*/.csproj'
+   project: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Release'
@@ -48,3 +45,16 @@ steps:
    command: 'build'
    arguments: '--no-restore --configuration Release'
    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish the project - Release'
+  inputs:
+   command: 'publish'
+   projects: '**/*.csproj'
+   publishWebProjects: false
+   arguments: '--no-restore --configuration Release --output $(Build.ArtifactStagingDirectory)/Release'
+   zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact:drop'
+  condition: succeeded()
