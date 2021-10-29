@@ -8,18 +8,19 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-20.04'
-  demands:
-  - npm
-
+  demands: 
+   - npm
+ 
 variables:
-  buildConfiguration: 'Release'
-  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '5.x'
+ buildConfiguration: 'Release'
+ wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+ dotnetSdkVersion: '5.x'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK$(dotnetSdkVersion)'
-  inputs: 
+  displayName: 'Use .NET SDK $(dotnetSdkVersion)'
+  inputs:
+   packageType: sdk 
    version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
@@ -50,7 +51,7 @@ steps:
 - template: templates/build.yml
   parameters:
    buildConfiguration: 'Release'
-   
+
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact:drop'
+  displayName: 'Publish Artifact: drop'
   condition: succeeded()
