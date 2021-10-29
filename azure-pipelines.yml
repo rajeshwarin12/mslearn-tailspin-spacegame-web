@@ -9,7 +9,10 @@ trigger:
 pool:
   vmImage: 'ubuntu-20.04'
   demands:
-  -npm
+  - npm
+
+variables:
+  buildConfiguration: 'Release'
 
 steps:
 - task: UseDotNet@2
